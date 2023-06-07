@@ -93,6 +93,7 @@ namespace BulkyWeb.Controllers
         {
             _context.Categories.Remove(category);
             _context.SaveChanges();
+            TempData["success"] = "Category deleted successfully!";
             return RedirectToAction("Index");
         }
     }
