@@ -8,6 +8,8 @@ namespace Bulky.DataAccess.Repositories
         private ApplicationDbContext _db;
         public ICategoryRepository categoryRepository { get; private set; }
 
+        public IProductRepository productRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
