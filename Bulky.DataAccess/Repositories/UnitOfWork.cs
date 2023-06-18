@@ -14,6 +14,7 @@ namespace Bulky.DataAccess.Repositories
         {
             _db = db;
             categoryRepository = new CategoryRepository(_db);
+            productRepository = new ProductRepository(_db);
         }
 
         public void Save()
