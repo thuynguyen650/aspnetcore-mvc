@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bulky.Models;
 
@@ -36,4 +37,9 @@ public class Product
     [Required]
     [Range(0, 10000)]
     public long Price100 { get; set; }
+
+    public int CategoryId { get; set; }
+
+    [ForeignKey("CategoryId")]
+    public Category Category { get; set; }
 }
