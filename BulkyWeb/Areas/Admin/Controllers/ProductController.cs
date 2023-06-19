@@ -1,6 +1,7 @@
 ﻿using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repositories.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -60,30 +61,44 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.categoryRepository.GetAll()
+            ProductVM product = new()
+            {
+                Product = new Product(),
+                CategoryList = _unitOfWork.categoryRepository.GetAll()
                 .Select(x => new SelectListItem
                 {
                     Text = x.Name,
                     Value = x.Id.ToString()
-                });
+                })
+            };
 
-            // ViewBag.CategoryList = CategoryList;
-            ViewData["CategoryList"] = CategoryList;
-
-            return View();
+            return View(product);
         }
 
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductVM productVM)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.productRepository.Add(product);
+                _unitOfWork.productRepository.Add(productVM.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully!";
                 return RedirectToAction("Index");
-            }
-            return View();
+            } else
+            {
+                ProductVM product = new()
+                {
+                    Product = new Product(),
+                    CategoryList = _unitOfWork.categoryRepository.GetAll()
+                        .Select(x => new SelectListItem
+                        {
+                            Text = x.Name,
+                            Value = x.Id.ToString()
+                        })
+                    };
+
+                    return View(product);
+                }    
         }
 
 
